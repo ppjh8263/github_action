@@ -2,9 +2,7 @@ name: CICD-SSH
 on:
   push:
       branches: [ main ]
-      paths:
-        - '*'
-
+      
 jobs:
   build:
     runs-on: ubuntu-latest
