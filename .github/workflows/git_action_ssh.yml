@@ -15,6 +15,8 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         port: ${{ secrets.PORT }}
         script: |
+            cd ${{ github.event.repository.name }}
+            chomod +x git_cicd.sh
             sh git_cicd.sh
 
     - name: Test server git action hello
