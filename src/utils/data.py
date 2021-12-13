@@ -26,15 +26,15 @@ def get_rand_bbox_coord(
     y1 = min(h, y + size_hole_h // 2)
     return (x0, y0), (x1, y1)
 
-def weights_for_balanced_classes(subset, nclasses):                        
-    count = [0] * nclasses                            
-    for i in subset:                                                         
-        count[i[1]] += 1                                                     
-    weight_per_class = [0.] * nclasses                                      
-    N = float(sum(count))                                                   
-    for i in range(nclasses):                                                   
-        weight_per_class[i] = N/float(count[i])                                 
-    weight = [0] * len(images)                                              
-    for idx, val in enumerate(images):                                          
-        weight[idx] = weight_per_class[val[1]]                                  
-    return weightget_rand_bbox_coord
+# def weights_for_balanced_classes(subset, nclasses):                        
+#     count = [0] * nclasses                            
+#     for i in subset:                                                         
+#         count[i[1]] += 1                                                     
+#     weight_per_class = [0.] * nclasses                                      
+#     N = float(sum(count))                                                   
+#     for i in range(nclasses):                                                   
+#         weight_per_class[i] = N/float(count[i])                                 
+#     weight = [0] * len(images)                                              
+#     for idx, val in enumerate(images):                                          
+#         weight[idx] = weight_per_class[val[1]]                                  
+#     return weightget_rand_bbox_coord
