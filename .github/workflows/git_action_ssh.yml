@@ -15,10 +15,8 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         port: ${{ secrets.PORT }}
         script: |
-            cd ${{ github.event.repository.name }}/
-            pwd
+            sh git_cicd.sh
 
     - name: Test server git action hello
       run: |  
-        pwd
         python action_test.py
