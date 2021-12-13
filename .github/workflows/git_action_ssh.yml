@@ -18,6 +18,6 @@ jobs:
         port: ${{ secrets.PORT }}
         script: |
             cd ${{ github.event.repository.name }}/
-    - name: Test git action hello
+    - name: Test server git action hello
       run: |  
         python action_test.py
