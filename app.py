@@ -17,7 +17,7 @@ def authenticate(pwd) -> bool:
     return pwd == root_pwd
 
 def main():
-    st.title("Trash Classification Model")
+    st.title("Trash Classification Model - Github Action Deploy")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = load_model()
 
