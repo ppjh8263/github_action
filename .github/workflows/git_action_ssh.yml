@@ -17,4 +17,3 @@ jobs:
         script: |
             cd ${{ github.event.repository.name }}
             sh git_cicd.sh
-            python action_test.py
