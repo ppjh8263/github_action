@@ -1,3 +1,6 @@
 #!/bin/bash
-
-git pull origin main
+soruce ~/.poetry/env
+poetry install
+poetry shell
+poe force-cuda11
+python api.py
