@@ -1,5 +1,5 @@
 #!/bin/bash
-soruce ~/.poetry/env
+source ~/.poetry/env
 poetry install
 poetry shell
 poe force-cuda11
