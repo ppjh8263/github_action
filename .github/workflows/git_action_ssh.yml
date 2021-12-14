@@ -16,4 +16,4 @@ jobs:
         port: ${{ secrets.PORT }}
         script: |
             cd ${{ github.event.repository.name }}
-            sh git_cicd.sh
+            bash git_cicd.sh
