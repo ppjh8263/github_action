@@ -18,7 +18,6 @@ python-multipart = "^0.0.5"
 opencv-python = "^4.5.4"
 Shapely = "^1.8.0"
 tqdm = "^4.62.3"
-Polygon3 = "^3.0.9"
 
 [tool.poetry.dev-dependencies]
 poethepoet = "^0.11.0"

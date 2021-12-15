@@ -5,10 +5,12 @@ WORKDIR /workdir
 ENV PYTHONPATH=/workdir
 ENV PYTHONUNBUFFERED=1
 
-RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python - \
-    && source $HOME/.poetry/env \
-    && poetry install \
-    && poetry shell \
-    && poe force-cuda11
+RUN /bin/bash \
+    && apt-get update \
+    && apt-get install curl -y\
+    && apt-get install ffmpeg libsm6 libxext6 -y\
+    && curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python - \
+    && pwd \
+    && bash docker_bash.sh
 
-CMD ["nohup", "python", "api.py", ">>", "server/logs/docker.txt"]
+CMD ["bash", "start.sh"]
