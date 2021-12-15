@@ -17,4 +17,3 @@ jobs:
         script: |
             cd ${{ github.event.repository.name }}
             bash git_cicd.sh
-            bash git_cicd2.sh
