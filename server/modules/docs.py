@@ -6,9 +6,9 @@ description = """
 - post 
     - input : {'file': [Image]}
     - tpye  : base64 file
-    - output: [{'translation':"translated sentence",
+    - output: [output_bbox_cnt, {'translation':"translated sentence",
             'point':'[x,y,w,h]',
-            'colors':[[r,g,b], [r,g,b]]},
+            'color':[[r,g,b], [r,g,b]]},
             {'translation':"translated sentence",
             'point':'[x,y,w,h]',
             'color':[[r,g,b], [r,g,b]],....]

@@ -15,7 +15,7 @@ class Trainer(BaseTrainer):
         self.optimizer is by default handled by BaseTrainer based on config.
     """
 
-    def __init__(self, model, loss, metrics, resume, config, data_loader, valid_data_loader=None, train_logger=None):
+    def __init__(self, model, loss, metrics, resume, config, data_loader, valid_data_loader=None, train_logger=None, wandb=None):
         super(Trainer, self).__init__(model, loss, metrics, resume, config, train_logger)
         self.config = config
         self.batch_size = data_loader.batch_size
@@ -25,6 +25,7 @@ class Trainer(BaseTrainer):
         self.log_step = config['trainer']['print_step']
         self.skip_val_lt_epoch = config['validation']['skip_lt_epoch']
         self.label_converter = StringLabelConverter(keys)
+        self.wandb = wandb
 
     def _to_tensor(self, *tensors):
         t = []
@@ -101,6 +102,14 @@ class Trainer(BaseTrainer):
                             100.0 * batch_idx / len(self.data_loader),
                             loss.item(), iou_loss.item(), cls_loss.item(), reg_loss.item()))
 
+                    self.wandb.log({
+                        "train/Epoch" : epoch,
+                        "train/Loss" : loss.item(),
+                        "train/IOU Loss": iou_loss.item(),
+                        "train/CLS Loss" : cls_loss.item(),
+                        "Recognition Loss" : reg_loss.item()
+                        })
+
             except Exception:
                 print(image_paths)
                 raise
@@ -112,11 +121,15 @@ class Trainer(BaseTrainer):
             'hmean': total_metrics[2] / len(self.data_loader)
         }
 
+
         # skip validation at the beginning to speedup training process
         if self.valid and self.skip_val_lt_epoch < epoch:
             print('Running validation set ...')
             val_log = self._valid_epoch()
             log = {**log, **val_log}
+        
+        log['epoch'] = epoch
+        self.wandb.log(log)
 
         return log
 
@@ -164,9 +177,10 @@ class Trainer(BaseTrainer):
                 except Exception:
                     print(imagePaths)
                     raise
+                    
 
         return {
-            'val_precious': total_val_metrics[0] / len(self.valid_data_loader),
-            'val_recall': total_val_metrics[1] / len(self.valid_data_loader),
-            'val_hmean': total_val_metrics[2] / len(self.valid_data_loader)
+            'val/precious': total_val_metrics[0] / len(self.valid_data_loader),
+            'val/recall': total_val_metrics[1] / len(self.valid_data_loader),
+            'val/hmean': total_val_metrics[2] / len(self.valid_data_loader)
         }

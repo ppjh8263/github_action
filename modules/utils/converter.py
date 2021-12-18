@@ -1,7 +1,7 @@
 import torch
 import unicodedata as ud
 
-# keys = ' 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@!"#$%&\'[]()+,-./:;=?´ÉÈ'
+# keys = ' 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`=;,./~!@#$%^&*()_+|:<>?°·£¥₩€-[]'"{}\'
 with open('modules/utils/codec.txt', 'r') as f:
     keys = f.readlines()[0]
 
@@ -30,8 +30,9 @@ class StringLabelConverter(object):
         length = []
         result = []
         for item in text:
-            if len(item) > 0 and 'ARABIC' in ud.name(item[0]):
-                item = item[::-1]
+            # if len(item) > 0 and 'ARABIC' in ud.name(item[0]):
+            #     print(item)
+            #     item = item[::-1]
             length.append(len(item))
             r = []
             for char in item:
@@ -72,8 +73,9 @@ class StringLabelConverter(object):
                                                                                                          length)
             if raw:
                 output = ''.join([self.alphabet[i - 1] for i in t])
-                if len(output) > 0 and 'ARABIC' in ud.name(output[0]):
-                    output = output[::-1]
+                # if len(output) > 0 and 'ARABIC' in ud.name(output[0]):
+                #     print(item)
+                #     output = output[::-1]
                 return output
             else:
                 char_list = []
@@ -82,8 +84,9 @@ class StringLabelConverter(object):
                         char_list.append(self.alphabet[t[i] - 1])
 
                 output = ''.join(char_list)
-                if len(output) > 0 and 'ARABIC' in ud.name(output[0]):
-                    output = output[::-1]
+                # if len(output) > 0 and 'ARABIC' in ud.name(output[0]):
+                #     print(item)
+                #     output = output[::-1]
                 return output
         else:
             # batch mode
