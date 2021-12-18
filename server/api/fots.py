@@ -8,11 +8,15 @@ from server.modules.papago import translation_en2ko
 from server.modules.util import read_imagefile,read_imagebase
 from server.modules.inference import predict
 
+from server.modules.color_finder import color_list
+
 fots_router = APIRouter(prefix='/fots')
 
 @fots_router.get("/", tags=['fots'])
 def read_root():
     return "Boost Camp AI tech CV7's API fots router"
+
+
 
 @fots_router.post("/image", tags=['fots'])
 async def fots_image(file: UploadFile = File(...)):
@@ -22,71 +26,14 @@ async def fots_image(file: UploadFile = File(...)):
         print(datetime.datetime.now())
         return "Image must be jpg or png format!"
     image = read_imagefile(await file.read())
-    boxes, pred_transcripts = predict(image)
-    print(f'Detect Text : {pred_transcripts}')
-    join_str=" @ "
-    print(join_str.join(pred_transcripts))
-    resp_code_papago,result_papago = translation_en2ko(join_str.join(pred_transcripts))
-    print(result_papago)
-    result_papago=result_papago.split(join_str)
-    print(f'Translated Text : {result_papago}')
-    prediction=[len(boxes)]
-    for idx,(bbox,text) in enumerate(zip(boxes, result_papago)):
-        # str_trns=translation_en2ko(text)
-        # print(f'Papago responese : {str_trns}')
-        if resp_code_papago==200:
-            prediction.append(
-                {
-                    'translation':text,
-                    'point':bbox.tolist()}
-                )
-        else:
-            prediction.append(
-                {
-                    'translation':f'Papago API Error [{resp_code_papago}]...',
-                    'point':bbox.tolist()}
-                )
-    running_time = time.monotonic() - time_start
-    print("*****", datetime.datetime.now(), "*****")
-    print(f'inference time : {running_time:.2f}s')
-
-    return prediction
-
-
+    return make_fots_response(image,time_start)
 
 @fots_router.post("/base64", tags=['fots'])
 async def fots_base64(file: UploadFile = File(...)):
     time_start = time.monotonic()
     image = read_imagefile(base64.b64decode(await file.read()))
-    boxes, pred_transcripts = predict(image)
-    print(f'Detect Text : {pred_transcripts}')
-    join_str=" @ "
-    print(join_str.join(pred_transcripts))
-    resp_code_papago,result_papago = translation_en2ko(join_str.join(pred_transcripts))
-    print(result_papago)
-    result_papago=result_papago.split(join_str)
-    print(f'Translated Text : {result_papago}')
-    prediction=[len(boxes)]
-    for idx,(bbox,text) in enumerate(zip(boxes, result_papago)):
-        # str_trns=translation_en2ko(text)
-        # print(f'Papago responese : {str_trns}')
-        if resp_code_papago==200:
-            prediction.append(
-                {
-                    'translation':text,
-                    'point':bbox.tolist()}
-                )
-        else:
-            prediction.append(
-                {
-                    'translation':f'Papago API Error [{resp_code_papago}]...',
-                    'point':bbox.tolist()}
-                )
-    running_time = time.monotonic() - time_start
-    print(datetime.datetime.now())
-    print(f'inference time : {running_time:.2f}s')
 
-    return prediction
+    return make_fots_response(image,time_start)
 
 @fots_router.post("/image/nopapago", tags=['fots'])
 async def fots_image_nopapago(file: UploadFile = File(...)):
@@ -146,4 +93,39 @@ async def fots_base64_nopapago(file: UploadFile = File(...)):
     print(datetime.datetime.now())
     print(f'inference time : {running_time:.2f}s')
     print(prediction)
+    return prediction
+
+
+def make_fots_response(image,time_start):
+    boxes, pred_transcripts = predict(image)
+    colors = color_list(image, boxes)
+    print(f'Detect Text : {pred_transcripts}')
+    join_str=" @ "
+    print(join_str.join(pred_transcripts))
+    resp_code_papago,result_papago = translation_en2ko(join_str.join(pred_transcripts))
+    print(result_papago)
+    result_papago=result_papago.split(join_str)
+    print(f'Translated Text : {result_papago}')
+    prediction=[len(boxes)]
+    for idx,(bbox,text,bbox_color) in enumerate(zip(boxes, result_papago, colors)):
+        # str_trns=translation_en2ko(text)
+        # print(f'Papago responese : {str_trns}')
+        if resp_code_papago==200:
+            prediction.append(
+                {
+                    'translation':text,
+                    'point':bbox.tolist(),
+                    'color':bbox_color,}
+                )
+        else:
+            prediction.append(
+                {
+                    'translation':f'Papago API Error [{resp_code_papago}]...',
+                    'point':bbox.tolist()}
+                )
+    
+    running_time = time.monotonic() - time_start
+    print("*****", datetime.datetime.now(), "*****")
+    print(f'inference time : {running_time:.2f}s')
+
     return prediction

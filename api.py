@@ -8,8 +8,9 @@ from server.api.fots import fots_router
 # import io
 
 app = FastAPI(description=description)
-app.include_router(demo_router)
 app.include_router(fots_router)
+app.include_router(demo_router)
+
 
 #메인페이지 실행할때 모델로드
 @app.on_event("startup")

@@ -1,36 +1,25 @@
 description = """
 ## BoostCamp CV7 Last Project's API Swagger. 🚀
 
-### classification
-1. /classification/image
+### fots
+1. /fots/base64
 - post 
-    - input : {'file': [Image]}
-    - tpye  : image file
-    - output: [{"result": "predict class", "confidence" : "predict confidence}]
-
-2. /classification/base64
-- post : {'file': [Image]}
-    - input : {'file': [Image]}
-    - tpye  : base64 file
-    - output: [{"result": "predict class", "confidence" : "predict confidence}]
-
-### bbox_demo
-1. /bbox_demo/image
-- post 
-    - input : {'file': [Image]}
-    - tpye  : image file
-    - output: [{'translation':"translated sentence",
-            'point':'[x,y,w,h]'},
-            {'translation':"translated sentence",
-            'point':'[x,y,w,h]'},....]
-
-2. /bbox_demo/base64
-- post
     - input : {'file': [Image]}
     - tpye  : base64 file
     - output: [{'translation':"translated sentence",
-            'point':'[x,y,w,h]'},
+            'point':'[x,y,w,h]',
+            'colors':[[r,g,b], [r,g,b]]},
             {'translation':"translated sentence",
-            'point':'[x,y,w,h]'},....]
+            'point':'[x,y,w,h]',
+            'color':[[r,g,b], [r,g,b]],....]
 
+2. /fots/image
+- Testing in docs(diff : image type)
+
+3. /fots/[image or base64]/nopapago
+- withdout papgo api
+
+### demos
+1. demo
+- withdout models
 """
