@@ -3,7 +3,6 @@
 
 ## Prerequisites
 
-Install from requirements.txt file 
 
 ```
 cd models
