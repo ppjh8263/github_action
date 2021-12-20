@@ -3,8 +3,6 @@
 
 ## Prerequisites
 
-This project using [Pytorch](https://pytorch.org/) - An open source machine learning framework.
-
 Install from requirements.txt file 
 
 ```
