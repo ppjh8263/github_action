@@ -1,6 +1,8 @@
 name: CICD-SSH
 on:
   push:
+      paths:
+      - "/server/"
       branches: [ main ]
       
 jobs:
