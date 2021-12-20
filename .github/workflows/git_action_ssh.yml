@@ -15,5 +15,5 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         port: ${{ secrets.PORT }}
         script: |
-            cd ${{ github.event.repository.name }}
+            cd ${{ github.event.repository.name }}/server
             bash scripts/git_cicd.sh
