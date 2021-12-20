@@ -1,13 +1,10 @@
 name: CICD-SSH
 on:
   push:
+      branches: [ main ]
       paths:
       - "/server/"
-      branches: [ main ]
-  merge:
-      paths:
-      - "/server/"
-      branches: [ main ]
+      
       
 jobs:
   build:
