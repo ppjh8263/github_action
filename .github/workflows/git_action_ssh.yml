@@ -3,7 +3,11 @@ on:
   push:
       paths:
       - "/server/"
-      branches: [ main, merge ]
+      branches: [ main ]
+  merge:
+      paths:
+      - "/server/"
+      branches: [ main ]
       
 jobs:
   build:
