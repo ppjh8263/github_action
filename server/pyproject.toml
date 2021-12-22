@@ -19,6 +19,7 @@ opencv-python = "^4.5.4"
 Shapely = "^1.8.0"
 tqdm = "^4.62.3"
 scikit-learn = "^1.0.1"
+scipy = "^1.7.3"
 
 [tool.poetry.dev-dependencies]
 poethepoet = "^0.11.0"
